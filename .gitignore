@@ -1,6 +1,5 @@
-.vscode/*
+.vscode/
 .vs/
-.
 # C compiled files
 *.o
 *.obj
