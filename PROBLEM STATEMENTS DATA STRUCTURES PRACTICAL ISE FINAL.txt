@@ -1,0 +1,435 @@
+PROBLEM STATEMENTS DATA STRUCTURES ISE
+1. Layered Cake Stack
+Problem: Simulate stacking and managing layers of a cake. Each layer has an integer thickness. All operations (adding, removing, modifying) affect only the topmost layer.
+Core Operations:
+? Add a new cake layer with the given thickness (integer) to the top of the stack.
+? Remove the last added cake layer from the stack. It should return the thickness (integer) of the layer that was removed.
+? Change the thickness of the current top layer to new_thickness. 
+? Return the thickness of the top layer without removing it.
+? Return true if the cake has no layers, false otherwise.
+? Print all cake layers from top to bottom.
+Edge Cases to Handle:
+? Print an error message or returning a specific value (like -1) on Empty in appropriate functions.
+2. Undo Operation Simulation
+Problem: Simulate a simple text editor's undo feature. Each action a user takes is represented by an integer action_code. To undo, the system must retrieve and process the most recent action.
+Core Operations:
+? Perform_Action(action_code): save a new action_code (integer) 
+? undo(): Simulates the user pressing "undo."
+? modifyLastAction(new_action_code): Modifies the most recent action. This is useful if, for example, an action is amended (e.g., "typing" becomes "typing 'hello'"). 
+? getLastAction(): see what the most recent action code is without undoing it.
+? isEmpty(): Returns true if there are no actions to undo.
+? displayHistory(): Prints all action codes from most recent to oldest.
+3. Plate Pile Management
+Problem: Manage a pile of numbered plates in a cafeteria. New plates are added to the top, and plates are taken from the top.
+Core Operations:
+? Add a new plate with plate_number (integer) to the pile.
+? Remove the plate from the pile. Returns the plate_number (integer) of the removed plate.
+? The top plate is dirty and is swapped/modified for a new one. This operation updates the plate_number of the top element without changing the stack's size.
+? Return the plate_number of the top plate without removing it.
+? Returns true if the pile is empty.
+? Prints all plate_numbers in the pile from top to bottom.
+4. Ride Queue
+Problem: Manage an amusement park ride. People are represented by an integer token. The special rule is that after a person is served, they immediately go back to the end of the line for another turn.
+Core Operations:
+? A new person with person_token (integer) joins the back of the line.
+? The person, who enters first, is served. This operation should:
+1. Remove the person's token that is served.
+2. Immediately add that same token back.
+3. Return the token (integer) of the person who was just served.
+? Return the token of the first person without serving them.
+? Return true if nobody is available for ride.
+? Prints all person_tokens from oldesr to latest.
+5. Printer Jobs waiting for printing
+Problem: Manage print jobs for a shared printer. Each job is represented by an integer (number of pages). Jobs are printed in the order they are received. When one job finishes, the next in line is taken.
+Core Operations:
+? Add a new print job with pages_to_print (integer) to the rear of the queue.
+? The printer finishes the job received first and returns the pages_to_print (integer) of that job. 
+? The user updates the page count for the first job before it starts printing.
+? Return true if there are no jobs to print.
+? Prints all pending jobs (page counts) from oldest to recent one.
+
+
+
+
+6. Music Playlist
+Problem: Simulate a music playlist where songs (represented by an integer song_ID) play in order. When a song finishes, it's removed from the front and the next song plays.
+Core Operations:
+? addSong(song_ID): Adds a new song with song_ID (integer) to the rear of the playlist.
+? playSong(): Simulates playing the song at the front of the playlist.
+? Next_Song(new_song_ID): play the next song i.e. print the next song_ID
+? previous_song(): play the previous song i.e. print the previous song_ID
+? isEmpty(): Returns true if the playlist is empty.
+? displayPlaylist(): Prints all song_IDs in the playlist.
+CIRCULAR QUEUE
+7. Hot Potato Game Circle
+Problem: You are managing a game of Hot Potato played in a small circle that can only fit a fixed number of players. New players can join if there is an empty spot. When the music stops, the player at the front of the line is out.
+Core Operations:
+? addPlayer(playerID): A new player with an integer playerID joins the circle (at the rear).
+? removePlayer(): The music stops, and the player at the front of the circle is removed. 
+? nextPlayer(): Look at the player at the front of the circle to see who is currently holding the potato, without removing them (peek).
+? isEmpty(): Returns true if there are no players in the circle.
+? isFull(): Returns true if the circle is at maximum capacity.
+? displayPlayers(): Show all players currently in the circle, from front to rear.
+8. Limited-Capacity Car Ferry 
+Problem: Simulate loading and unloading cars from a ferry that has a fixed capacity (e.g., it can only hold 10 cars). Cars drive onto the back of the ferry (rear) and drive off from the front (front).
+Core Operations:
+? loadCar(carID): A new car with an integer carID drives onto the ferry, joining the rear of the line.
+? unloadCar(): The ferry docks, and the car at the front of the line drives off. 
+? viewNextCar(): Check the carID of the car at the front of the ferry, waiting to unload (peek).
+? isEmpty(): Returns true if the ferry has no cars.
+? isFull(): Returns true if the ferry is at maximum capacity.
+? displayFerry(): Print the carIDs of all cars on the ferry, from front to rear.
+9. Round-Robin Task Scheduler 
+Problem: A simple CPU scheduler has a job queue that can hold a fixed number of tasks. New tasks are added to the end of the queue. The CPU always executes the task at the front of the queue in a "round-robin" fashion.
+Core Operations:
+? submitTask(taskID): A new task with an integer taskID is submitted to the scheduler, getting added to the rear of the queue.
+? executeTask(): The CPU finishes the task at the front of the queue. 
+? viewNextTask(): Check the taskID of the next task to be executed without removing it from the queue (peek).
+? isEmpty(): Returns true if there are no tasks in the queue.
+? isFull(): Returns true if the task queue is at capacity.
+? displayTasks(): Show all pending taskIDs in the queue from front to rear.
+DOUBLE-ENDED QUEUE (DEQUE)
+10. Train Compartment Arrangement
+Problem: Simulate arranging compartments of a train. Each compartment has an integer ID. You can attach or detach compartments from both the engine (front) and the caboose (rear).
+Core Operations:
+? attachFront(compartment_ID): Adds a compartment with compartment_ID (integer) to the front of the train.
+? attachRear(compartment_ID): Adds a compartment with compartment_ID (integer) to the rear of the train.
+? detachFront(): Removes the compartment at the front of the train. Returns its compartment_ID.
+? detachRear(): Removes the compartment at the rear of the train. Returns its compartment_ID.
+? modifyFront(new_ID): Updates the ID of the front-most compartment.
+? modifyRear(new_ID): Updates the ID of the rear-most compartment.
+? getFront() / getRear(): peek at the compartment_ID of the front or rear compartment without removing it.
+? isEmpty(): Returns true if there are no compartments.
+? displayTrain(): Prints all compartment_IDs from front to rear.
+Edge Cases to Handle:
+? All detach, modify, or get operations on an empty deque.
+? attach operations on a full deque (if using a fixed-size array).
+11. Browser History Simulation
+Data Structure: Deque
+Problem: Simulate a browser's simple page history. Each visited page is represented by an integer page_ID. The "current" page is the rear of the deque. Going "back" means moving from rear to front.
+Core Operations:
+? visitPage(page_ID): This is an addRear operation. The user visits a new page, so it's added to the "end" (most recent) of the history.
+? goBack(): This is a removeRear operation. It simulates clicking the "back" button. It should return the page_ID of the page you were just on. The new "current" page becomes the new rear element.
+? goForward(page_ID): This is an addRear operation. This simulates moving forward in history after going back. (Note: A true browser history uses two stacks; this is a simplified deque-only version).
+? modifyCurrentPage(new_ID): Updates the ID of the current page (the element at the rear).
+? modifyOldestPage(new_ID): Updates the ID of the oldest page in history (the element at the front).
+? viewCurrentPage(): getRear() - Returns the page_ID of the current page.
+? viewOldestPage(): getFront() - Returns the page_ID of the oldest page.
+? isEmpty(): Returns true if the history is empty.
+? displayHistory(): Prints all page_IDs from oldest (front) to most recent (rear).
+Edge Cases to Handle:
+? All remove, modify, or view operations on an empty deque.
+12. Customer Service Line
+Data Structure: Deque
+Problem: Manage a customer service line where VIP customers can enter at the front and Normal customers enter at the back. Service can be provided from either end. Each customer has an integer token_number.
+Core Operations:
+? addVIP(token_number): A VIP customer arrives. Add their token_number (integer) to the front of the deque.
+? addNormal(token_number): A normal customer arrives. Add their token_number (integer) to the rear of the deque.
+? serveVIP(): Serve the next VIP customer. This removeFront operation returns the VIP's token_number.
+? serveNormal(): Serve the next normal customer. This removeRear operation returns the normal customer's token_number.
+? modifyVIPToken(new_token): Updates the token_number of the customer at the front of the line.
+? modifyNormalToken(new_token): Updates the token_number of the customer at the rear of the line.
+? viewNextVIP(): getFront() - Returns the token_number of the next VIP to be served.
+? viewNextNormal(): getRear() - Returns the token_number of the next normal customer to be served.
+? isEmpty(): Returns true if the line is empty.
+? displayLine(): Prints all token_numbers from front to rear.
+Edge Cases to Handle:
+? serveVIP, modifyVIPToken, or viewNextVIP on an empty deque.
+? serveNormal, modifyNormalToken, or viewNextNormal on an empty deque.
+
+
+SINGLY LINKED LIST (SLL)
+13.  Student Roll Numbers
+Data Structure: Singly Linked List
+Problem: Create a list to store integer roll_numbers. You must implement functions to add to the end, delete from a specific position, and modify an existing roll number.
+Core Operations:
+? insertAtEnd(int roll_number):
+? Creates a new Node with the given roll_number.
+? If the list is empty (head == null): Set the head to this new node.
+? If the list is not empty: Traverse the list until you find the last node (i.e., temp.next == null). Set temp.next to the new node.
+? deleteAtPosition(int position):
+? Takes a 0-indexed position as an argument.
+? Edge Case (Position 0): If position == 0, you are deleting the head. Set head = head.next.
+? Other Positions: Traverse the list to find the node before the one to be deleted (i.e., the node at position - 1). Let's call this prev.
+? Set prev.next = prev.next.next to "skip over" and delete the node at position.
+? Edge Cases to Handle:
+? The list is empty.
+? position is negative or greater than/equal to the list's size.
+? modifyRoll(int old_roll, int new_roll):
+? Traverse the list from the head.
+? Find the first node where node.data == old_roll.
+? If found, update its value: node.data = new_roll.
+? Return true if the modification was successful.
+? Edge Cases to Handle:
+? The list is empty.
+? old_roll is not found in the list (return false).
+? display(): (Helper function)
+? Traverse from head to tail and print the data of each node.
+
+14. Delivery Stops
+Data Structure: Singly Linked List
+Problem: Manage a sequence of delivery stop_IDs. You must implement functions to add to the beginning, remove from the end, and change a specific stop's ID.
+Core Operations:
+? addAtBeginning(int stop_ID):
+? Creates a new Node with the given stop_ID.
+? Set the new node's next pointer to the current head.
+? Set the head pointer to this new node.
+? removeLast():
+? Edge Case (Empty List): If head == null, do nothing (or return an error).
+? Edge Case (One Node): If head.next == null (only one node in the list), set head = null.
+? General Case: Traverse the list to find the second-to-last node (i.e., temp.next.next == null).
+? Set temp.next = null. This disconnects the last node, which gets garbage collected.
+? changeStopID(int old_ID, int new_ID):
+? Traverse the list from the head.
+? Find the first node where node.data == old_ID.
+? If found, update its value: node.data = new_ID.
+? Return true if successful.
+? Edge Cases to Handle:
+? The list is empty.
+? The old_ID is not found (return false).
+? display(): (Helper function)
+? Traverse and print all stop_IDs.
+
+15. Product Inventory
+Data Structure: Singly Linked List
+Problem: Maintain a list of product_codes. You must implement functions to insert at a specific position, delete a specific code, and update a code.
+Core Operations:
+? insertAtPosition(int product_code, int position):
+? Takes a 0-indexed position.
+? Creates a new Node with product_code.
+? Edge Case (Position 0): This is the same as addAtBeginning. Set newNode.next = head and head = newNode.
+? Other Positions: Traverse to the node at position - 1 (let's call it prev).
+? Set newNode.next = prev.next.
+? Set prev.next = newNode.
+? Edge Cases to Handle:
+? position is negative or greater than the list's size.
+? deleteByValue(int product_code):
+? Edge Case (Head): Check if head.data == product_code. If yes, set head = head.next and return true.
+? General Case: Traverse the list with a prev pointer trailing a current pointer.
+? Stop when current.data == product_code.
+? Set prev.next = current.next to remove the current node.
+? Edge Cases to Handle:
+? The list is empty.
+? The product_code is not found (return false).
+? updateCode(int old_code, int new_code):
+? Traverse the list.
+? Find the first node where node.data == old_code.
+? If found, set node.data = new_code and return true.
+? Edge Cases to Handle:
+? The list is empty.
+? The old_code is not found (return false).
+? display(): (Helper function)
+? Traverse and print all product_codes.
+DOUBLY LINKED LIST (DLL)
+16. Train Compartments
+Data Structure: Doubly Linked List
+Problem: Represent a train of compartment_IDs. Implement functions to add to the end, remove from the beginning, and modify an ID.
+Core Operations:
+? addAtEnd(int compartment_ID):
+? Creates a new Node with the compartment_ID.
+? Edge Case (Empty List): If head == null, set head = newNode and tail = newNode.
+? General Case:
+? Set tail.next = newNode.
+? Set newNode.prev = tail.
+? Update the tail pointer: tail = newNode.
+? removeFromBeginning():
+? Edge Case (Empty List): If head == null, do nothing (or return -1).
+? Edge Case (One Node): If head == tail, set head = null and tail = null.
+? General Case:
+? Update the head: head = head.next.
+? Set the new head's previous pointer to null: head.prev = null.
+? modifyID(int old_ID, int new_ID):
+? Traverse the list from the head (or tail, it doesn't matter).
+? Find the first node where node.data == old_ID.
+? If found, update its value: node.data = new_ID and return true.
+? Edge Cases to Handle:
+? The list is empty.
+? The old_ID is not found (return false).
+? displayForward(): (Helper function)
+? Traverse from head to tail using next pointers and print data.
+
+17. Library Book IDs
+Data Structure: Doubly Linked List
+Problem: Store book_IDs. Implement functions to insert at a specific position, delete a specific ID, and update an ID.
+Core Operations:
+? insertAtPosition(int book_ID, int position):
+? Takes a 0-indexed position.
+? Edge Case (Pos 0): Call an addAtStart function (similar to SLL, but must also set head.prev = newNode).
+? Edge Case (Pos == size): Call addAtEnd (from Q4).
+? General Case: Traverse to the node at position (let's call it current).
+? Create the newNode.
+? newNode.next = current;
+? newNode.prev = current.prev;
+? current.prev.next = newNode;
+? current.prev = newNode;
+? deleteByID(int book_ID):
+? Traverse the list to find the node with book_ID (let's call it node_to_delete).
+? Edge Case (Not Found/Empty): If node_to_delete == null, return false.
+? Edge Case (Head): If node_to_delete == head, call removeFromBeginning (from Q4).
+? Edge Case (Tail): If node_to_delete == tail, call a removeFromEnd function.
+? General Case (Middle):
+? node_to_delete.prev.next = node_to_delete.next;
+? node_to_delete.next.prev = node_to_delete.prev;
+? Return true.
+? updateID(int old_ID, int new_ID):
+? Same logic as modifyID in Q4. Traverse, find, update, return success/fail.
+? displayForward() / displayBackward(): (Helper functions)
+? Print from head to tail (using next) or tail to head (using prev).
+
+18. Movie Playlist
+Data Structure: Doubly Linked List
+Problem: Manage a playlist of movie_IDs. Implement functions to add/remove from both ends and modify an ID.
+Core Operations:
+? addAtStart(int movie_ID):
+? Creates a new Node.
+? Edge Case (Empty): head = newNode, tail = newNode.
+? General Case: newNode.next = head, head.prev = newNode, head = newNode.
+? addAtEnd(int movie_ID):
+? (Same as Q4 addAtEnd). newNode.prev = tail, tail.next = newNode, tail = newNode.
+? removeFromStart():
+? (Same as Q4 removeFromBeginning). head = head.next, head.prev = null. Handle empty/one-node cases.
+? removeFromEnd():
+? Edge Case (Empty): If head == null, do nothing.
+? Edge Case (One Node): If head == tail, set head = null, tail = null.
+? General Case: tail = tail.prev, tail.next = null.
+? modifyID(int old_ID, int new_ID):
+? (Same as Q4/Q5). Traverse, find, update, return success/fail.
+? displayForward(): (Helper function)
+? Traverse from head to tail and print data.
+CIRCULAR LINKED LIST (CLL)
+19. Game Player Turns
+Data Structure: Circular Linked List
+Problem: Manage player_IDs in a circle. Implement functions to add a new player, remove a player, and change a player's ID.
+Core Operations:
+? addPlayer(int player_ID): (Adds to the "end" of the circle)
+? Creates a new Node.
+? Edge Case (Empty List): If tail == null, set newNode.next = newNode (points to itself) and tail = newNode.
+? General Case:
+? newNode.next = tail.next; (New node points to the head)
+? tail.next = newNode; (Old tail points to the new node)
+? tail = newNode; (Update tail to be the new node)
+? removePlayer(int player_ID):
+? Edge Cases (Empty/Not Found): If tail == null, return false.
+? Use two pointers, current and prev, starting at tail.next and tail respectively.
+? Loop until current.data == player_ID (or you loop all the way around).
+? If found: prev.next = current.next (skips the current node).
+? Special Case (Deleting Tail): If current == tail, you must also update tail = prev.
+? Special Case (One Node): If tail.next == tail and tail.data == player_ID, set tail = null.
+? Return true if deleted, false if not found.
+? changeID(int old_ID, int new_ID):
+? Edge Case (Empty): If tail == null, return false.
+? Traverse the list (a do-while loop starting from tail.next is good for this).
+? Find the node where node.data == old_ID.
+? If found, set node.data = new_ID and return true.
+? If you loop all the way back to the start without finding it, return false.
+? display(): (Helper function)
+? Start at tail.next (the head) and traverse using a do-while loop until you reach the tail again. Print each node's data.
+
+20. Round-Robin Scheduling
+Data Structure: Circular Linked List
+Problem: Manage process_IDs for round-robin scheduling. Implement functions to insert, delete, and modify a process. (Note: This is functionally identical to Q7, just with a different "story".)
+Core Operations:
+? insertProcess(int process_ID):
+? (Same logic as addPlayer in Q7). Adds the new process to be the new tail.
+? deleteProcess(int process_ID):
+? (Same logic as removePlayer in Q7). Finds the process_ID and removes it from the circle, handling the tail and single-node cases.
+? modifyProcess(int old_ID, int new_ID):
+? (Same logic as changeID in Q7). Traverses the circle, finds the old_ID, and updates it to new_ID.
+? display(): (Helper function)
+? (Same as Q7). Prints all processes in the circle, starting from the head.
+
+21. Circular Queue Simulation
+Data Structure: Circular Linked List
+Problem: Use a CLL to implement a Queue (FIFO). The tail pointer is the rear of the queue, and tail.next is the front.
+Core Operations:
+? enqueue(int value): (Add to the rear)
+? This is identical to addPlayer in Q7. You add a new node and make it the new tail.
+? Logic:
+? Create newNode.
+? If tail == null: newNode.next = newNode, tail = newNode.
+? If tail != null: newNode.next = tail.next, tail.next = newNode, tail = newNode.
+? dequeue(): (Remove from the front)
+? Edge Case (Empty): If tail == null, return -1 (or throw error).
+? Edge Case (One Node): If tail.next == tail, get tail.data, set tail = null, and return the data.
+? General Case:
+? Get the front node: Node front = tail.next.
+? Get the data: int data = front.data.
+? Bypass the front node: tail.next = front.next.
+? Return data.
+? modifyFront(int new_value): (Modifies the element at the front)
+? Edge Case (Empty): If tail == null, return false.
+? General Case: Set tail.next.data = new_value. Return true.
+? displayQueue(): (Helper function)
+? (Same as display in Q7/Q8). Prints all elements from front to rear.
+BINARY TREE (General)
+22. Employee Hierarchy
+Data Structure: Binary Tree
+Problem: Represent an employee hierarchy. Each employee has an integer employee_ID. A manager (parent node) can have at most two direct subordinates (left and right children).
+Core Operations:
+? addEmployee(employee_ID, manager_ID): Finds the node with manager_ID and adds a new node with employee_ID as its first available child (tries left, then right). Returns true on success, false if the manager is not found or already has two subordinates.
+? removeEmployee(employee_ID): Finds the node with employee_ID and removes it and its entire subtree (all subordinates). This means setting its parent's reference (left or right) to null. Returns true on success, false if not found.
+? modifyEmployeeID(old_ID, new_ID): Finds the node with old_ID and updates its value to new_ID.
+? findEmployee(employee_ID): Searches the tree (e.g., using Level-Order or Pre-Order traversal) for employee_ID and returns the node if found, null otherwise.
+? displayHierarchy(): Prints the tree structure, (e.g., using Pre-Order Traversal: "Manager -> Subordinate1 -> Subordinate2").
+Edge Cases to Handle:
+? addEmployee when manager_ID is not found.
+? addEmployee when the manager node already has both left and right children.
+? removeEmployee or modifyEmployeeID when employee_ID is not found.
+? Operations on an empty tree (e.g., adding the root/CEO).
+23. Family Tree Representation
+Data Structure: Binary Tree
+Problem: Represent a family tree where each member has an integer member_ID. A parent node can have children (up to two, per the Binary Tree constraint).
+Core Operations:
+? addMember(member_ID, parent_ID): Finds the parent_ID node and adds the new member_ID as an available child (left or right). Returns true on success, false if parent_ID is not found or has two children.
+? removeMember(member_ID): Finds the member_ID and removes that node and all its descendants (the entire subtree). Returns true on success, false if not found.
+? updateMemberID(old_ID, new_ID): Finds the node with old_ID and changes its value to new_ID.
+? findMember(member_ID): Searches the tree for member_ID and returns the node.
+? displayFamily(): Prints the tree structure (e.g., using a traversal).
+Edge Cases to Handle:
+? addMember to a non-existent parent.
+? addMember to a parent with two children.
+? removeMember or updateMemberID for a non-existent member.
+? Adding the root (ancestor) of the family tree.
+
+BINARY SEARCH TREE (BST)
+24. Student Marks Record
+Data Structure: Binary Search Tree (BST)
+Problem: Store student marks (integers) in a way that allows for efficient searching, insertion, and deletion, while maintaining a sorted order.
+Core Operations:
+? insertMark(mark): Inserts a new mark (integer) into the tree, maintaining the BST property (lesser values go left, greater values go right).
+? deleteMark(mark): Deletes the mark from the tree. This must correctly handle the three cases:
+1. Node has 0 children (leaf node).
+2. Node has 1 child.
+3. Node has 2 children (requires finding the in-order successor or predecessor).
+? updateMark(old_mark, new_mark): This operation is complex. To maintain the BST property, you must first deleteMark(old_mark) and then insertMark(new_mark).
+? findMark(mark): Searches for mark and returns true if found, false otherwise.
+? displaySortedMarks(): Performs an In-Order Traversal of the BST, which will print all marks in ascending order.
+Edge Cases to Handle:
+? deleteMark or updateMark for a mark that is not in the tree.
+? insertMark for a mark that already exists (decide whether to allow duplicates or ignore).
+25. Product Price Catalog
+Data Structure: Binary Search Tree (BST)
+Problem: Maintain a catalog of product prices (integers) that must be kept in sorted order for quick lookup.
+Core Operations:
+? insertPrice(price): Adds a new price (integer) to the BST.
+? removePrice(price): Removes the price from the BST, handling all 0, 1, and 2-child cases.
+? modifyPrice(old_price, new_price): Modifies an existing price. This should be implemented as removePrice(old_price) followed by insertPrice(new_price).
+? findPrice(price): Searches for price and returns true if it exists.
+? displayPrices(): Performs an In-Order Traversal to print all prices from lowest to highest.
+Edge Cases to Handle:
+? removePrice or modifyPrice for a price that is not in the catalog.
+? Duplicate prices.
+26. Library Book Numbers
+Data Structure: Binary Search Tree (BST)
+Problem: Store library book IDs (integers) in a BST to allow for fast checking of whether a book is in the system.
+Core Operations:
+? addBook(book_ID): Inserts a new book_ID (integer) into the BST, following BST rules.
+? removeBook(book_ID): Removes the book_ID from the BST, handling the 0, 1, and 2-child deletion cases.
+? updateBookID(old_ID, new_ID): Updates a book's ID. This must be implemented by first calling removeBook(old_ID) and then addBook(new_ID) to ensure the tree structure remains valid.
+? findBook(book_ID): Efficiently searches the tree for book_ID, returning true if found.
+? displayAllBooks(): Performs an In-Order Traversal to print all book_IDs in sorted order.
+Edge Cases to Handle:
+? removeBook or updateBookID for an old_ID that does not exist.
+? addBook for a book_ID that is already in the tree.
+
+
