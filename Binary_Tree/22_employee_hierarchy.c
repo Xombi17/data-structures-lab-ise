@@ -60,6 +60,36 @@ int addEmployee(EmployeeTree* tree, int employee_ID, int manager_ID) {
     }
 }
 
+int removeEmployee(EmployeeTree* tree, int employee_ID, TreeNode* parent, TreeNode* current) {
+    if (current == NULL) return 0;
+    
+    if (current->employee_ID == employee_ID) {
+        if (parent == NULL) {
+            tree->root = NULL;
+        } else if (parent->left == current) {
+            parent->left = NULL;
+        } else {
+            parent->right = NULL;
+        }
+        printf("Removed employee %d and subordinates\n", employee_ID);
+        return 1;
+    }
+    
+    if (removeEmployee(tree, employee_ID, current, current->left)) return 1;
+    return removeEmployee(tree, employee_ID, current, current->right);
+}
+
+int modifyEmployeeID(EmployeeTree* tree, int old_ID, int new_ID) {
+    TreeNode* emp = findNode(tree->root, old_ID);
+    if (emp == NULL) {
+        printf("Employee %d not found!\n", old_ID);
+        return 0;
+    }
+    emp->employee_ID = new_ID;
+    printf("Modified employee %d to %d\n", old_ID, new_ID);
+    return 1;
+}
+
 void preorderTraversal(TreeNode* root) {
     if (root != NULL) {
         printf("%d ", root->employee_ID);
@@ -81,10 +111,10 @@ void displayHierarchy(EmployeeTree* tree) {
 int main() {
     EmployeeTree tree;
     init(&tree);
-    int choice, emp_id, mgr_id;
+    int choice, emp_id, mgr_id, old_id, new_id;
     
     while (1) {
-        printf("\n1. Add employee\n2. Display hierarchy\n3. Exit\n");
+        printf("\n1. Add employee\n2. Remove employee\n3. Modify ID\n4. Display\n5. Exit\n");
         scanf("%d", &choice);
         
         switch (choice) {
@@ -100,9 +130,21 @@ int main() {
                 }
                 break;
             case 2:
-                displayHierarchy(&tree);
+                printf("Enter employee ID to remove: ");
+                scanf("%d", &emp_id);
+                removeEmployee(&tree, emp_id, NULL, tree.root);
                 break;
             case 3:
+                printf("Enter old ID: ");
+                scanf("%d", &old_id);
+                printf("Enter new ID: ");
+                scanf("%d", &new_id);
+                modifyEmployeeID(&tree, old_id, new_id);
+                break;
+            case 4:
+                displayHierarchy(&tree);
+                break;
+            case 5:
                 return 0;
         }
     }

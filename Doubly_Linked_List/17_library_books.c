@@ -95,6 +95,20 @@ int deleteByID(LibraryList* library, int book_ID) {
     return 1;
 }
 
+int updateID(LibraryList* library, int old_ID, int new_ID) {
+    Node* temp = library->head;
+    while (temp != NULL) {
+        if (temp->book_ID == old_ID) {
+            temp->book_ID = new_ID;
+            printf("Updated book %d to %d\n", old_ID, new_ID);
+            return 1;
+        }
+        temp = temp->next;
+    }
+    printf("Book %d not found!\n", old_ID);
+    return 0;
+}
+
 void displayForward(LibraryList* library) {
     if (library->head == NULL) {
         printf("No books\n");
@@ -112,10 +126,10 @@ void displayForward(LibraryList* library) {
 int main() {
     LibraryList library;
     init(&library);
-    int choice, id, pos;
+    int choice, id, pos, old_id, new_id;
     
     while (1) {
-        printf("\n1. Insert at position\n2. Delete by ID\n3. Display\n4. Exit\n");
+        printf("\n1. Insert at position\n2. Delete by ID\n3. Update ID\n4. Display\n5. Exit\n");
         scanf("%d", &choice);
         
         switch (choice) {
@@ -132,9 +146,16 @@ int main() {
                 deleteByID(&library, id);
                 break;
             case 3:
-                displayForward(&library);
+                printf("Enter old book ID: ");
+                scanf("%d", &old_id);
+                printf("Enter new book ID: ");
+                scanf("%d", &new_id);
+                updateID(&library, old_id, new_id);
                 break;
             case 4:
+                displayForward(&library);
+                break;
+            case 5:
                 return 0;
         }
     }

@@ -60,6 +60,36 @@ int addMember(FamilyTree* tree, int member_ID, int parent_ID) {
     }
 }
 
+int removeMember(FamilyTree* tree, int member_ID, TreeNode* parent, TreeNode* current) {
+    if (current == NULL) return 0;
+    
+    if (current->member_ID == member_ID) {
+        if (parent == NULL) {
+            tree->root = NULL;
+        } else if (parent->left == current) {
+            parent->left = NULL;
+        } else {
+            parent->right = NULL;
+        }
+        printf("Removed member %d and descendants\n", member_ID);
+        return 1;
+    }
+    
+    if (removeMember(tree, member_ID, current, current->left)) return 1;
+    return removeMember(tree, member_ID, current, current->right);
+}
+
+int updateMemberID(FamilyTree* tree, int old_ID, int new_ID) {
+    TreeNode* member = findMember(tree->root, old_ID);
+    if (member == NULL) {
+        printf("Member %d not found!\n", old_ID);
+        return 0;
+    }
+    member->member_ID = new_ID;
+    printf("Updated member %d to %d\n", old_ID, new_ID);
+    return 1;
+}
+
 void preorderTraversal(TreeNode* root) {
     if (root != NULL) {
         printf("%d ", root->member_ID);
@@ -81,10 +111,10 @@ void displayFamily(FamilyTree* tree) {
 int main() {
     FamilyTree tree;
     init(&tree);
-    int choice, member_id, parent_id;
+    int choice, member_id, parent_id, old_id, new_id;
     
     while (1) {
-        printf("\n1. Add member\n2. Display family\n3. Exit\n");
+        printf("\n1. Add member\n2. Remove member\n3. Update ID\n4. Display\n5. Exit\n");
         scanf("%d", &choice);
         
         switch (choice) {
@@ -100,9 +130,21 @@ int main() {
                 }
                 break;
             case 2:
-                displayFamily(&tree);
+                printf("Enter member ID to remove: ");
+                scanf("%d", &member_id);
+                removeMember(&tree, member_id, NULL, tree.root);
                 break;
             case 3:
+                printf("Enter old ID: ");
+                scanf("%d", &old_id);
+                printf("Enter new ID: ");
+                scanf("%d", &new_id);
+                updateMemberID(&tree, old_id, new_id);
+                break;
+            case 4:
+                displayFamily(&tree);
+                break;
+            case 5:
                 return 0;
         }
     }
