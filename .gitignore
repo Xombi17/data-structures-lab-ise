@@ -1,5 +1,3 @@
-.vscode/
-.vs/
 # C compiled files
 *.o
 *.obj
@@ -12,3 +10,15 @@
 *
 !*/
 !*.*
+
+# Re-ignore after !*.* negation
+*.exe
+*.o
+*.obj
+*.out
+*.a
+*.so
+
+# IDE folders (must come after !*.* to override it)
+.vscode/
+.vs/
