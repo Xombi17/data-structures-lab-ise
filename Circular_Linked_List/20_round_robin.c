@@ -2,56 +2,50 @@
 #include <stdlib.h>
 
 typedef struct Node {
-    int process_ID;
+    int data;
     struct Node* next;
 } Node;
 
-typedef struct {
-    Node* tail;
-} ProcessScheduler;
-
-void init(ProcessScheduler* scheduler) {
-    scheduler->tail = NULL;
-}
+Node *tail = NULL;
 
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->process_ID = data;
+    newNode->data = data;
     newNode->next = NULL;
     return newNode;
 }
 
-void insertProcess(ProcessScheduler* scheduler, int process_ID) {
+void insertProcess(int process_ID) {
     Node* newNode = createNode(process_ID);
     
-    if (scheduler->tail == NULL) {
+    if (!tail) {
         newNode->next = newNode;
-        scheduler->tail = newNode;
+        tail = newNode;
     } else {
-        newNode->next = scheduler->tail->next;
-        scheduler->tail->next = newNode;
-        scheduler->tail = newNode;
+        newNode->next = tail->next;
+        tail->next = newNode;
+        tail = newNode;
     }
     printf("Inserted process %d\n", process_ID);
 }
 
-int deleteProcess(ProcessScheduler* scheduler, int process_ID) {
-    if (scheduler->tail == NULL) {
+int deleteProcess(int process_ID) {
+    if (!tail) {
         printf("No processes!\n");
         return 0;
     }
     
-    Node* current = scheduler->tail->next;
-    Node* prev = scheduler->tail;
+    Node* current = tail->next;
+    Node* prev = tail;
     
     do {
-        if (current->process_ID == process_ID) {
-            if (current == scheduler->tail && current->next == current) {
-                scheduler->tail = NULL;
+        if (current->data == process_ID) {
+            if (current == tail && current->next == current) {
+                tail = NULL;
             } else {
                 prev->next = current->next;
-                if (current == scheduler->tail) {
-                    scheduler->tail = prev;
+                if (current == tail) {
+                    tail = prev;
                 }
             }
             free(current);
@@ -60,50 +54,48 @@ int deleteProcess(ProcessScheduler* scheduler, int process_ID) {
         }
         prev = current;
         current = current->next;
-    } while (current != scheduler->tail->next);
+    } while (current != tail->next);
     
     printf("Process %d not found!\n", process_ID);
     return 0;
 }
 
-int modifyProcess(ProcessScheduler* scheduler, int old_ID, int new_ID) {
-    if (scheduler->tail == NULL) {
+int modifyProcess(int old_ID, int new_ID) {
+    if (!tail) {
         printf("No processes!\n");
         return 0;
     }
     
-    Node* current = scheduler->tail->next;
+    Node* current = tail->next;
     do {
-        if (current->process_ID == old_ID) {
-            current->process_ID = new_ID;
+        if (current->data == old_ID) {
+            current->data = new_ID;
             printf("Modified process %d to %d\n", old_ID, new_ID);
             return 1;
         }
         current = current->next;
-    } while (current != scheduler->tail->next);
+    } while (current != tail->next);
     
     printf("Process %d not found!\n", old_ID);
     return 0;
 }
 
-void display(ProcessScheduler* scheduler) {
-    if (scheduler->tail == NULL) {
+void display() {
+    if (!tail) {
         printf("No processes\n");
         return;
     }
     
     printf("Processes: ");
-    Node* current = scheduler->tail->next;
+    Node* current = tail->next;
     do {
-        printf("%d ", current->process_ID);
+        printf("%d ", current->data);
         current = current->next;
-    } while (current != scheduler->tail->next);
+    } while (current != tail->next);
     printf("\n");
 }
 
 int main() {
-    ProcessScheduler scheduler;
-    init(&scheduler);
     int choice, id, old_id, new_id;
     
     while (1) {
@@ -114,22 +106,22 @@ int main() {
             case 1:
                 printf("Enter process ID: ");
                 scanf("%d", &id);
-                insertProcess(&scheduler, id);
+                insertProcess(id);
                 break;
             case 2:
                 printf("Enter process ID to delete: ");
                 scanf("%d", &id);
-                deleteProcess(&scheduler, id);
+                deleteProcess(id);
                 break;
             case 3:
                 printf("Enter old process ID: ");
                 scanf("%d", &old_id);
                 printf("Enter new process ID: ");
                 scanf("%d", &new_id);
-                modifyProcess(&scheduler, old_id, new_id);
+                modifyProcess(old_id, new_id);
                 break;
             case 4:
-                display(&scheduler);
+                display();
                 break;
             case 5:
                 return 0;

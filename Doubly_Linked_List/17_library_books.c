@@ -2,33 +2,25 @@
 #include <stdlib.h>
 
 typedef struct Node {
-    int book_ID;
+    int data;
     struct Node* next;
     struct Node* prev;
 } Node;
 
-typedef struct {
-    Node* head;
-    Node* tail;
-    int size;
-} LibraryList;
-
-void init(LibraryList* library) {
-    library->head = NULL;
-    library->tail = NULL;
-    library->size = 0;
-}
+Node *head = NULL;
+Node *tail = NULL;
+int size = 0;
 
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->book_ID = data;
+    newNode->data = data;
     newNode->next = NULL;
     newNode->prev = NULL;
     return newNode;
 }
 
-void insertAtPosition(LibraryList* library, int book_ID, int position) {
-    if (position < 0 || position > library->size) {
+void insertAtPosition(int book_ID, int position) {
+    if (position < 0 || position > size) {
         printf("Invalid position!\n");
         return;
     }
@@ -36,20 +28,19 @@ void insertAtPosition(LibraryList* library, int book_ID, int position) {
     Node* newNode = createNode(book_ID);
     
     if (position == 0) {
-        if (library->head == NULL) {
-            library->head = newNode;
-            library->tail = newNode;
+        if (!head) {
+            head = tail = newNode;
         } else {
-            newNode->next = library->head;
-            library->head->prev = newNode;
-            library->head = newNode;
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
         }
-    } else if (position == library->size) {
-        library->tail->next = newNode;
-        newNode->prev = library->tail;
-        library->tail = newNode;
+    } else if (position == size) {
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
     } else {
-        Node* current = library->head;
+        Node* current = head;
         for (int i = 0; i < position; i++) {
             current = current->next;
         }
@@ -59,47 +50,46 @@ void insertAtPosition(LibraryList* library, int book_ID, int position) {
         current->prev = newNode;
     }
     
-    library->size++;
+    size++;
     printf("Inserted book %d at position %d\n", book_ID, position);
 }
 
-int deleteByID(LibraryList* library, int book_ID) {
-    Node* temp = library->head;
+int deleteByID(int book_ID) {
+    Node* temp = head;
     
-    while (temp != NULL && temp->book_ID != book_ID) {
+    while (temp && temp->data != book_ID) {
         temp = temp->next;
     }
     
-    if (temp == NULL) {
+    if (!temp) {
         printf("Book %d not found!\n", book_ID);
         return 0;
     }
     
-    if (temp == library->head && temp == library->tail) {
-        library->head = NULL;
-        library->tail = NULL;
-    } else if (temp == library->head) {
-        library->head = temp->next;
-        library->head->prev = NULL;
-    } else if (temp == library->tail) {
-        library->tail = temp->prev;
-        library->tail->next = NULL;
+    if (temp == head && temp == tail) {
+        head = tail = NULL;
+    } else if (temp == head) {
+        head = temp->next;
+        head->prev = NULL;
+    } else if (temp == tail) {
+        tail = temp->prev;
+        tail->next = NULL;
     } else {
         temp->prev->next = temp->next;
         temp->next->prev = temp->prev;
     }
     
     free(temp);
-    library->size--;
+    size--;
     printf("Deleted book %d\n", book_ID);
     return 1;
 }
 
-int updateID(LibraryList* library, int old_ID, int new_ID) {
-    Node* temp = library->head;
-    while (temp != NULL) {
-        if (temp->book_ID == old_ID) {
-            temp->book_ID = new_ID;
+int updateID(int old_ID, int new_ID) {
+    Node* temp = head;
+    while (temp) {
+        if (temp->data == old_ID) {
+            temp->data = new_ID;
             printf("Updated book %d to %d\n", old_ID, new_ID);
             return 1;
         }
@@ -109,23 +99,21 @@ int updateID(LibraryList* library, int old_ID, int new_ID) {
     return 0;
 }
 
-void displayForward(LibraryList* library) {
-    if (library->head == NULL) {
+void displayForward() {
+    if (!head) {
         printf("No books\n");
         return;
     }
     printf("Books (forward): ");
-    Node* temp = library->head;
-    while (temp != NULL) {
-        printf("%d ", temp->book_ID);
+    Node* temp = head;
+    while (temp) {
+        printf("%d ", temp->data);
         temp = temp->next;
     }
     printf("\n");
 }
 
 int main() {
-    LibraryList library;
-    init(&library);
     int choice, id, pos, old_id, new_id;
     
     while (1) {
@@ -138,22 +126,22 @@ int main() {
                 scanf("%d", &id);
                 printf("Enter position: ");
                 scanf("%d", &pos);
-                insertAtPosition(&library, id, pos);
+                insertAtPosition(id, pos);
                 break;
             case 2:
                 printf("Enter book ID to delete: ");
                 scanf("%d", &id);
-                deleteByID(&library, id);
+                deleteByID(id);
                 break;
             case 3:
                 printf("Enter old book ID: ");
                 scanf("%d", &old_id);
                 printf("Enter new book ID: ");
                 scanf("%d", &new_id);
-                updateID(&library, old_id, new_id);
+                updateID(old_id, new_id);
                 break;
             case 4:
-                displayForward(&library);
+                displayForward();
                 break;
             case 5:
                 return 0;

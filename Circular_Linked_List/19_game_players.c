@@ -2,56 +2,50 @@
 #include <stdlib.h>
 
 typedef struct Node {
-    int player_ID;
+    int data;
     struct Node* next;
 } Node;
 
-typedef struct {
-    Node* tail;
-} GameCircle;
-
-void init(GameCircle* game) {
-    game->tail = NULL;
-}
+Node *tail = NULL;
 
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->player_ID = data;
+    newNode->data = data;
     newNode->next = NULL;
     return newNode;
 }
 
-void addPlayer(GameCircle* game, int player_ID) {
+void addPlayer(int player_ID) {
     Node* newNode = createNode(player_ID);
     
-    if (game->tail == NULL) {
+    if (!tail) {
         newNode->next = newNode;
-        game->tail = newNode;
+        tail = newNode;
     } else {
-        newNode->next = game->tail->next;
-        game->tail->next = newNode;
-        game->tail = newNode;
+        newNode->next = tail->next;
+        tail->next = newNode;
+        tail = newNode;
     }
     printf("Added player %d\n", player_ID);
 }
 
-int removePlayer(GameCircle* game, int player_ID) {
-    if (game->tail == NULL) {
+int removePlayer(int player_ID) {
+    if (!tail) {
         printf("No players in game!\n");
         return 0;
     }
     
-    Node* current = game->tail->next;
-    Node* prev = game->tail;
+    Node* current = tail->next;
+    Node* prev = tail;
     
     do {
-        if (current->player_ID == player_ID) {
-            if (current == game->tail && current->next == current) {
-                game->tail = NULL;
+        if (current->data == player_ID) {
+            if (current == tail && current->next == current) {
+                tail = NULL;
             } else {
                 prev->next = current->next;
-                if (current == game->tail) {
-                    game->tail = prev;
+                if (current == tail) {
+                    tail = prev;
                 }
             }
             free(current);
@@ -60,50 +54,48 @@ int removePlayer(GameCircle* game, int player_ID) {
         }
         prev = current;
         current = current->next;
-    } while (current != game->tail->next);
+    } while (current != tail->next);
     
     printf("Player %d not found!\n", player_ID);
     return 0;
 }
 
-int changeID(GameCircle* game, int old_ID, int new_ID) {
-    if (game->tail == NULL) {
+int changeID(int old_ID, int new_ID) {
+    if (!tail) {
         printf("No players in game!\n");
         return 0;
     }
     
-    Node* current = game->tail->next;
+    Node* current = tail->next;
     do {
-        if (current->player_ID == old_ID) {
-            current->player_ID = new_ID;
+        if (current->data == old_ID) {
+            current->data = new_ID;
             printf("Changed player %d to %d\n", old_ID, new_ID);
             return 1;
         }
         current = current->next;
-    } while (current != game->tail->next);
+    } while (current != tail->next);
     
     printf("Player %d not found!\n", old_ID);
     return 0;
 }
 
-void display(GameCircle* game) {
-    if (game->tail == NULL) {
+void display() {
+    if (!tail) {
         printf("No players in game\n");
         return;
     }
     
     printf("Players in circle: ");
-    Node* current = game->tail->next;
+    Node* current = tail->next;
     do {
-        printf("%d ", current->player_ID);
+        printf("%d ", current->data);
         current = current->next;
-    } while (current != game->tail->next);
+    } while (current != tail->next);
     printf("\n");
 }
 
 int main() {
-    GameCircle game;
-    init(&game);
     int choice, id, old_id, new_id;
     
     while (1) {
@@ -114,22 +106,22 @@ int main() {
             case 1:
                 printf("Enter player ID: ");
                 scanf("%d", &id);
-                addPlayer(&game, id);
+                addPlayer(id);
                 break;
             case 2:
                 printf("Enter player ID to remove: ");
                 scanf("%d", &id);
-                removePlayer(&game, id);
+                removePlayer(id);
                 break;
             case 3:
                 printf("Enter old ID: ");
                 scanf("%d", &old_id);
                 printf("Enter new ID: ");
                 scanf("%d", &new_id);
-                changeID(&game, old_id, new_id);
+                changeID(old_id, new_id);
                 break;
             case 4:
-                display(&game);
+                display();
                 break;
             case 5:
                 return 0;

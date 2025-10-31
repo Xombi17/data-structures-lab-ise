@@ -1,56 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct TreeNode {
-    int employee_ID;
-    struct TreeNode* left;
-    struct TreeNode* right;
-} TreeNode;
+typedef struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+} Node;
 
-typedef struct {
-    TreeNode* root;
-} EmployeeTree;
+Node *root = NULL;
 
-void init(EmployeeTree* tree) {
-    tree->root = NULL;
-}
-
-TreeNode* createNode(int employee_ID) {
-    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
-    newNode->employee_ID = employee_ID;
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
     newNode->left = NULL;
     newNode->right = NULL;
     return newNode;
 }
 
-TreeNode* findNode(TreeNode* root, int employee_ID) {
-    if (root == NULL) return NULL;
-    if (root->employee_ID == employee_ID) return root;
+Node* findNode(Node* root, int employee_ID) {
+    if (!root) return NULL;
+    if (root->data == employee_ID) return root;
     
-    TreeNode* left_result = findNode(root->left, employee_ID);
-    if (left_result != NULL) return left_result;
+    Node* left_result = findNode(root->left, employee_ID);
+    if (left_result) return left_result;
     
     return findNode(root->right, employee_ID);
 }
 
-int addEmployee(EmployeeTree* tree, int employee_ID, int manager_ID) {
-    if (tree->root == NULL) {
-        tree->root = createNode(employee_ID);
+int addEmployee(int employee_ID, int manager_ID) {
+    if (!root) {
+        root = createNode(employee_ID);
         printf("Added CEO %d\n", employee_ID);
         return 1;
     }
     
-    TreeNode* manager = findNode(tree->root, manager_ID);
-    if (manager == NULL) {
+    Node* manager = findNode(root, manager_ID);
+    if (!manager) {
         printf("Manager %d not found!\n", manager_ID);
         return 0;
     }
     
-    if (manager->left == NULL) {
+    if (!manager->left) {
         manager->left = createNode(employee_ID);
         printf("Added employee %d under manager %d (left)\n", employee_ID, manager_ID);
         return 1;
-    } else if (manager->right == NULL) {
+    } else if (!manager->right) {
         manager->right = createNode(employee_ID);
         printf("Added employee %d under manager %d (right)\n", employee_ID, manager_ID);
         return 1;
@@ -60,12 +54,12 @@ int addEmployee(EmployeeTree* tree, int employee_ID, int manager_ID) {
     }
 }
 
-int removeEmployee(EmployeeTree* tree, int employee_ID, TreeNode* parent, TreeNode* current) {
-    if (current == NULL) return 0;
+int removeEmployee(int employee_ID, Node* parent, Node* current) {
+    if (!current) return 0;
     
-    if (current->employee_ID == employee_ID) {
-        if (parent == NULL) {
-            tree->root = NULL;
+    if (current->data == employee_ID) {
+        if (!parent) {
+            root = NULL;
         } else if (parent->left == current) {
             parent->left = NULL;
         } else {
@@ -75,42 +69,40 @@ int removeEmployee(EmployeeTree* tree, int employee_ID, TreeNode* parent, TreeNo
         return 1;
     }
     
-    if (removeEmployee(tree, employee_ID, current, current->left)) return 1;
-    return removeEmployee(tree, employee_ID, current, current->right);
+    if (removeEmployee(employee_ID, current, current->left)) return 1;
+    return removeEmployee(employee_ID, current, current->right);
 }
 
-int modifyEmployeeID(EmployeeTree* tree, int old_ID, int new_ID) {
-    TreeNode* emp = findNode(tree->root, old_ID);
-    if (emp == NULL) {
+int modifyEmployeeID(int old_ID, int new_ID) {
+    Node* emp = findNode(root, old_ID);
+    if (!emp) {
         printf("Employee %d not found!\n", old_ID);
         return 0;
     }
-    emp->employee_ID = new_ID;
+    emp->data = new_ID;
     printf("Modified employee %d to %d\n", old_ID, new_ID);
     return 1;
 }
 
-void preorderTraversal(TreeNode* root) {
-    if (root != NULL) {
-        printf("%d ", root->employee_ID);
+void preorderTraversal(Node* root) {
+    if (root) {
+        printf("%d ", root->data);
         preorderTraversal(root->left);
         preorderTraversal(root->right);
     }
 }
 
-void displayHierarchy(EmployeeTree* tree) {
-    if (tree->root == NULL) {
+void displayHierarchy() {
+    if (!root) {
         printf("No employees\n");
         return;
     }
     printf("Employee hierarchy: ");
-    preorderTraversal(tree->root);
+    preorderTraversal(root);
     printf("\n");
 }
 
 int main() {
-    EmployeeTree tree;
-    init(&tree);
     int choice, emp_id, mgr_id, old_id, new_id;
     
     while (1) {
@@ -121,28 +113,28 @@ int main() {
             case 1:
                 printf("Enter employee ID: ");
                 scanf("%d", &emp_id);
-                if (tree.root == NULL) {
-                    addEmployee(&tree, emp_id, 0);
+                if (!root) {
+                    addEmployee(emp_id, 0);
                 } else {
                     printf("Enter manager ID: ");
                     scanf("%d", &mgr_id);
-                    addEmployee(&tree, emp_id, mgr_id);
+                    addEmployee(emp_id, mgr_id);
                 }
                 break;
             case 2:
                 printf("Enter employee ID to remove: ");
                 scanf("%d", &emp_id);
-                removeEmployee(&tree, emp_id, NULL, tree.root);
+                removeEmployee(emp_id, NULL, root);
                 break;
             case 3:
                 printf("Enter old ID: ");
                 scanf("%d", &old_id);
                 printf("Enter new ID: ");
                 scanf("%d", &new_id);
-                modifyEmployeeID(&tree, old_id, new_id);
+                modifyEmployeeID(old_id, new_id);
                 break;
             case 4:
-                displayHierarchy(&tree);
+                displayHierarchy();
                 break;
             case 5:
                 return 0;

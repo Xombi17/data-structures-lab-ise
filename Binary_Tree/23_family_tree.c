@@ -1,56 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct TreeNode {
-    int member_ID;
-    struct TreeNode* left;
-    struct TreeNode* right;
-} TreeNode;
+typedef struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+} Node;
 
-typedef struct {
-    TreeNode* root;
-} FamilyTree;
+Node *root = NULL;
 
-void init(FamilyTree* tree) {
-    tree->root = NULL;
-}
-
-TreeNode* createNode(int member_ID) {
-    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
-    newNode->member_ID = member_ID;
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
     newNode->left = NULL;
     newNode->right = NULL;
     return newNode;
 }
 
-TreeNode* findMember(TreeNode* root, int member_ID) {
-    if (root == NULL) return NULL;
-    if (root->member_ID == member_ID) return root;
+Node* findMember(Node* root, int member_ID) {
+    if (!root) return NULL;
+    if (root->data == member_ID) return root;
     
-    TreeNode* left_result = findMember(root->left, member_ID);
-    if (left_result != NULL) return left_result;
+    Node* left_result = findMember(root->left, member_ID);
+    if (left_result) return left_result;
     
     return findMember(root->right, member_ID);
 }
 
-int addMember(FamilyTree* tree, int member_ID, int parent_ID) {
-    if (tree->root == NULL) {
-        tree->root = createNode(member_ID);
+int addMember(int member_ID, int parent_ID) {
+    if (!root) {
+        root = createNode(member_ID);
         printf("Added ancestor %d\n", member_ID);
         return 1;
     }
     
-    TreeNode* parent = findMember(tree->root, parent_ID);
-    if (parent == NULL) {
+    Node* parent = findMember(root, parent_ID);
+    if (!parent) {
         printf("Parent %d not found!\n", parent_ID);
         return 0;
     }
     
-    if (parent->left == NULL) {
+    if (!parent->left) {
         parent->left = createNode(member_ID);
         printf("Added member %d as child of %d\n", member_ID, parent_ID);
         return 1;
-    } else if (parent->right == NULL) {
+    } else if (!parent->right) {
         parent->right = createNode(member_ID);
         printf("Added member %d as child of %d\n", member_ID, parent_ID);
         return 1;
@@ -60,12 +54,12 @@ int addMember(FamilyTree* tree, int member_ID, int parent_ID) {
     }
 }
 
-int removeMember(FamilyTree* tree, int member_ID, TreeNode* parent, TreeNode* current) {
-    if (current == NULL) return 0;
+int removeMember(int member_ID, Node* parent, Node* current) {
+    if (!current) return 0;
     
-    if (current->member_ID == member_ID) {
-        if (parent == NULL) {
-            tree->root = NULL;
+    if (current->data == member_ID) {
+        if (!parent) {
+            root = NULL;
         } else if (parent->left == current) {
             parent->left = NULL;
         } else {
@@ -75,42 +69,40 @@ int removeMember(FamilyTree* tree, int member_ID, TreeNode* parent, TreeNode* cu
         return 1;
     }
     
-    if (removeMember(tree, member_ID, current, current->left)) return 1;
-    return removeMember(tree, member_ID, current, current->right);
+    if (removeMember(member_ID, current, current->left)) return 1;
+    return removeMember(member_ID, current, current->right);
 }
 
-int updateMemberID(FamilyTree* tree, int old_ID, int new_ID) {
-    TreeNode* member = findMember(tree->root, old_ID);
-    if (member == NULL) {
+int updateMemberID(int old_ID, int new_ID) {
+    Node* member = findMember(root, old_ID);
+    if (!member) {
         printf("Member %d not found!\n", old_ID);
         return 0;
     }
-    member->member_ID = new_ID;
+    member->data = new_ID;
     printf("Updated member %d to %d\n", old_ID, new_ID);
     return 1;
 }
 
-void preorderTraversal(TreeNode* root) {
-    if (root != NULL) {
-        printf("%d ", root->member_ID);
+void preorderTraversal(Node* root) {
+    if (root) {
+        printf("%d ", root->data);
         preorderTraversal(root->left);
         preorderTraversal(root->right);
     }
 }
 
-void displayFamily(FamilyTree* tree) {
-    if (tree->root == NULL) {
+void displayFamily() {
+    if (!root) {
         printf("No family members\n");
         return;
     }
     printf("Family tree: ");
-    preorderTraversal(tree->root);
+    preorderTraversal(root);
     printf("\n");
 }
 
 int main() {
-    FamilyTree tree;
-    init(&tree);
     int choice, member_id, parent_id, old_id, new_id;
     
     while (1) {
@@ -121,28 +113,28 @@ int main() {
             case 1:
                 printf("Enter member ID: ");
                 scanf("%d", &member_id);
-                if (tree.root == NULL) {
-                    addMember(&tree, member_id, 0);
+                if (!root) {
+                    addMember(member_id, 0);
                 } else {
                     printf("Enter parent ID: ");
                     scanf("%d", &parent_id);
-                    addMember(&tree, member_id, parent_id);
+                    addMember(member_id, parent_id);
                 }
                 break;
             case 2:
                 printf("Enter member ID to remove: ");
                 scanf("%d", &member_id);
-                removeMember(&tree, member_id, NULL, tree.root);
+                removeMember(member_id, NULL, root);
                 break;
             case 3:
                 printf("Enter old ID: ");
                 scanf("%d", &old_id);
                 printf("Enter new ID: ");
                 scanf("%d", &new_id);
-                updateMemberID(&tree, old_id, new_id);
+                updateMemberID(old_id, new_id);
                 break;
             case 4:
-                displayFamily(&tree);
+                displayFamily();
                 break;
             case 5:
                 return 0;

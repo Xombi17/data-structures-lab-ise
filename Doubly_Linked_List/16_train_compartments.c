@@ -2,69 +2,60 @@
 #include <stdlib.h>
 
 typedef struct Node {
-    int compartment_ID;
+    int data;
     struct Node* next;
     struct Node* prev;
 } Node;
 
-typedef struct {
-    Node* head;
-    Node* tail;
-} TrainList;
-
-void init(TrainList* train) {
-    train->head = NULL;
-    train->tail = NULL;
-}
+Node *head = NULL;
+Node *tail = NULL;
 
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->compartment_ID = data;
+    newNode->data = data;
     newNode->next = NULL;
     newNode->prev = NULL;
     return newNode;
 }
 
-void addAtEnd(TrainList* train, int compartment_ID) {
+void addAtEnd(int compartment_ID) {
     Node* newNode = createNode(compartment_ID);
     
-    if (train->head == NULL) {
-        train->head = newNode;
-        train->tail = newNode;
+    if (!head) {
+        head = tail = newNode;
     } else {
-        train->tail->next = newNode;
-        newNode->prev = train->tail;
-        train->tail = newNode;
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
     }
     printf("Added compartment %d at end\n", compartment_ID);
 }
 
-int removeFromBeginning(TrainList* train) {
-    if (train->head == NULL) {
+int removeFromBeginning() {
+    if (!head) {
         printf("No compartments to remove!\n");
         return -1;
     }
     
-    int removed = train->head->compartment_ID;
-    Node* temp = train->head;
+    int removed = head->data;
+    Node* temp = head;
     
-    if (train->head == train->tail) {
-        train->head = NULL;
-        train->tail = NULL;
+    if (head == tail) {
+        head = tail = NULL;
     } else {
-        train->head = train->head->next;
-        train->head->prev = NULL;
+        head = head->next;
+        head->prev = NULL;
     }
     
     free(temp);
     return removed;
 }
 
-int modifyID(TrainList* train, int old_ID, int new_ID) {
-    Node* temp = train->head;
-    while (temp != NULL) {
-        if (temp->compartment_ID == old_ID) {
-            temp->compartment_ID = new_ID;
+int modifyID(int old_ID, int new_ID) {
+    Node* temp = head;
+    while (temp) {
+        if (temp->data == old_ID) {
+            temp->data = new_ID;
             printf("Modified %d to %d\n", old_ID, new_ID);
             return 1;
         }
@@ -74,23 +65,21 @@ int modifyID(TrainList* train, int old_ID, int new_ID) {
     return 0;
 }
 
-void displayForward(TrainList* train) {
-    if (train->head == NULL) {
+void displayForward() {
+    if (!head) {
         printf("No compartments\n");
         return;
     }
     printf("Train (head to tail): ");
-    Node* temp = train->head;
-    while (temp != NULL) {
-        printf("%d ", temp->compartment_ID);
+    Node* temp = head;
+    while (temp) {
+        printf("%d ", temp->data);
         temp = temp->next;
     }
     printf("\n");
 }
 
 int main() {
-    TrainList train;
-    init(&train);
     int choice, id, old_id, new_id;
     
     while (1) {
@@ -101,10 +90,10 @@ int main() {
             case 1:
                 printf("Enter compartment ID: ");
                 scanf("%d", &id);
-                addAtEnd(&train, id);
+                addAtEnd(id);
                 break;
             case 2:
-                id = removeFromBeginning(&train);
+                id = removeFromBeginning();
                 if (id != -1) printf("Removed compartment: %d\n", id);
                 break;
             case 3:
@@ -112,10 +101,10 @@ int main() {
                 scanf("%d", &old_id);
                 printf("Enter new ID: ");
                 scanf("%d", &new_id);
-                modifyID(&train, old_id, new_id);
+                modifyID(old_id, new_id);
                 break;
             case 4:
-                displayForward(&train);
+                displayForward();
                 break;
             case 5:
                 return 0;
