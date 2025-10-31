@@ -14,9 +14,9 @@ void init(ProcessScheduler* scheduler) {
     scheduler->tail = NULL;
 }
 
-Node* createNode(int process_ID) {
+Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->process_ID = process_ID;
+    newNode->process_ID = data;
     newNode->next = NULL;
     return newNode;
 }

@@ -8,10 +8,16 @@ typedef struct Node {
 
 Node *head = NULL, *tail = NULL;
 
-void addAtStart(int movie_ID) {
+Node* createNode(int data) {
     Node *newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = movie_ID;
+    newNode->data = data;
+    newNode->next = NULL;
     newNode->prev = NULL;
+    return newNode;
+}
+
+void addAtStart(int movie_ID) {
+    Node *newNode = createNode(movie_ID);
     if (!head) {
         newNode->next = NULL;
         head = tail = newNode;
@@ -24,9 +30,7 @@ void addAtStart(int movie_ID) {
 }
 
 void addAtEnd(int movie_ID) {
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = movie_ID;
-    newNode->next = NULL;
+    Node *newNode = createNode(movie_ID);
     if (!tail) {
         newNode->prev = NULL;
         head = tail = newNode;

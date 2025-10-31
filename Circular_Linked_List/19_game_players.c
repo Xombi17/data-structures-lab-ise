@@ -14,9 +14,9 @@ void init(GameCircle* game) {
     game->tail = NULL;
 }
 
-Node* createNode(int player_ID) {
+Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->player_ID = player_ID;
+    newNode->player_ID = data;
     newNode->next = NULL;
     return newNode;
 }

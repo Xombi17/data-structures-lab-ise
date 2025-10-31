@@ -19,9 +19,9 @@ void init(LibraryList* library) {
     library->size = 0;
 }
 
-Node* createNode(int book_ID) {
+Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->book_ID = book_ID;
+    newNode->book_ID = data;
     newNode->next = NULL;
     newNode->prev = NULL;
     return newNode;

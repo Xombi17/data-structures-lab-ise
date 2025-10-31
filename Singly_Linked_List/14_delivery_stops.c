@@ -8,9 +8,15 @@ typedef struct Node {
 
 Node *head = NULL;
 
-void addAtBeginning(int stop_ID) {
+Node* createNode(int data) {
     Node *newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = stop_ID;
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void addAtBeginning(int stop_ID) {
+    Node *newNode = createNode(stop_ID);
     newNode->next = head;
     head = newNode;
     printf("Stop %d added at beginning\n", stop_ID);

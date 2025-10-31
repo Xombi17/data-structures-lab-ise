@@ -8,9 +8,15 @@ typedef struct Node {
 
 Node *head = NULL;
 
-void insertAtPosition(int product_code, int position) {
+Node* createNode(int data) {
     Node *newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = product_code;
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void insertAtPosition(int product_code, int position) {
+    Node *newNode = createNode(product_code);
     if (position == 0) {
         newNode->next = head;
         head = newNode;

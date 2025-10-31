@@ -17,9 +17,9 @@ void init(TrainList* train) {
     train->tail = NULL;
 }
 
-Node* createNode(int compartment_ID) {
+Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->compartment_ID = compartment_ID;
+    newNode->compartment_ID = data;
     newNode->next = NULL;
     newNode->prev = NULL;
     return newNode;

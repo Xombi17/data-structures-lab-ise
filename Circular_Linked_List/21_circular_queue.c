@@ -8,9 +8,15 @@ typedef struct Node {
 
 Node *tail = NULL;
 
-void enqueue(int value) {
+Node* createNode(int data) {
     Node *newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = value;
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void enqueue(int value) {
+    Node *newNode = createNode(value);
     if (!tail) {
         newNode->next = newNode;
         tail = newNode;
